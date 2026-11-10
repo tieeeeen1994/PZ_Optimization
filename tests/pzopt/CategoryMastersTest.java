@@ -21,7 +21,7 @@ public class CategoryMastersTest {
          // guards against races and stock crashes
          "guardedCallbacks", "modelLockPerInstance", "luaWorkerGate",
          // not optimizations
-         "luaChecksumExempt", "modProfile", "modCompat", "uiRetainedMods", "updateCheck", "updatePrefetch", "updateFromWorkshop",
+         "luaChecksumExempt", "noDebugShortcuts", "modProfile", "modCompat", "uiRetainedMods", "updateCheck", "updatePrefetch", "updateFromWorkshop",
          // the Java memory settings (the launcher file's heap and collector, read before Config; System > Memory since the
          // menu-impeccable prototype, 2026-10-19): the System switch leaves them as set
          "gcHeap", "luaGcNoop", "gcMode", "gcHeapFixed", "gcPreTouch", "gcPauseMs", "gcG1Tuned", "gcSlack", "gcSlackQueue",

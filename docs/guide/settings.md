@@ -286,6 +286,7 @@ The table below is a selection of the main keys; the build has about 1,000. Full
 | `instrument` | `false` | per-chunk and per-frame timings for the harness |
 | `gpuSections` | `false` | GPU microseconds per frame section in the log (measurement only) |
 | `luaChecksumExempt` | `true` | the pzopt Lua files are left out of the multiplayer Lua file check (a server without them refused the join) |
+| `noDebugShortcuts` | `true` | a multiplayer client launched with -debug ignores the game's hidden Ctrl shortcuts (Ctrl+A spawns a bull, also the inventory's Select All; Ctrl+D kills you; Ctrl+R / S / V / Z repair a car, reset the network state, add a car, add a zombie); `false` = stock |
 | **Chunk streaming** | | |
 | `parallel` / `workers` | `true` / `min(4, cores-1)` (`1` on 4 cores or fewer) | recalc chunks on a worker pool (`false` = stock single thread) and its width |
 | `wake` | `true` | wake the streamer on enqueue instead of the 140 ms poll |

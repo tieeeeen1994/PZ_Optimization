@@ -1591,6 +1591,8 @@ local SECTIONS = {
         entries = {
             { key = "luaChecksumExempt", label = "Leave the pzopt Lua files out of the server file check",
               tip = "When joining a server the game lists every Lua file under media/lua to the server; the pzopt files (this tab and its search index, the frame cap combo, the key binding, the update item) only exist on clients and a server without them refused the join with \"File doesn't exist on the server\". They are skipped like the game skips SandboxVars.lua. Applies on the next launch." },
+            { key = "noDebugShortcuts", label = "Turn off the hidden Ctrl shortcuts of -debug",
+              tip = "A game launched with -debug (admins keep it for the Lua console) has hidden shortcuts on a server while Ctrl is held: Ctrl+A spawns a bull in front of you, Ctrl+D kills your character, Ctrl+R repairs the car you are in or next to, Ctrl+S resets your character's network state, Ctrl+V spawns a sports car and Ctrl+Z a zombie. They are not in the key bindings, and Ctrl+A is also the inventory's Select All, so selecting all your items spawned a bull. On: they do nothing; the Lua console, the debug menu and everything else -debug gives stay. Off: as in the stock game. Applies on the next launch." },
         },
     },
     {
@@ -3695,6 +3697,7 @@ local EFFECTS = {
     vboFastQuads = { render = -1 },
     -- multiplayer
     luaChecksumExempt = {},
+    noDebugShortcuts = {},
     -- updates
     updateCheck = {},
     updateFromWorkshop = {},

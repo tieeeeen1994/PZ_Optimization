@@ -251,7 +251,7 @@ local MOVED_TABS = {
       subTitle = "Mod Lua events", keys = { "luaTickHz", "luaTickAdaptive", "luaEventDispatchFast", "luaEventSkipEmpty", "luaErrorThrottle" } },
     { tab = "compat", cat = "mp", title = "Mods & MP", catTitle = "Multiplayer settings", colour = { 0.55, 0.85, 0.85 },
       blurb = "Playing on a server.",
-      subTitle = "Multiplayer", keys = { "luaChecksumExempt" } },
+      subTitle = "Multiplayer", keys = { "luaChecksumExempt", "noDebugShortcuts" } },
     { tab = "update", cat = "upd", title = "Update", catTitle = "Update settings", colour = { 0.86, 0.86, 0.90 },
       blurb = "How new releases reach you: the offer in the main menu, the download in the background, where it comes from.",
       subTitle = "Updates", keys = { "updateCheck", "updatePrefetch", "updateFromWorkshop" } },

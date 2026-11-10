@@ -100,7 +100,7 @@ PzoptSettingsLayout = {
                 { title = "Cores and power", keys = { "corePlacement", "workerQosMac", "gpuPstate", "jitSteady", "lightingSyncPark" } },
                 { title = "Sound", keys = { "audioLimiter", "audioLimiterCeilingDb", "audioLimiterStereoFold", "soundTickHz",
                     "emitterIdleSkip", "worldSoundCleanupFast", "hearingHoist", "soundZoneCache", "worldSoundFast" } },
-                { title = "Mods and multiplayer", keys = { "modProfile", "modCompat", "uiRetainedMods", "luaWorkerGate", "luaChecksumExempt" } },
+                { title = "Mods and multiplayer", keys = { "modProfile", "modCompat", "uiRetainedMods", "luaWorkerGate", "luaChecksumExempt", "noDebugShortcuts" } },
                 { title = "Mod Lua events", keys = { "luaTickHz", "luaTickAdaptive", "luaTickInputWake", "luaEventDispatchFast", "luaEventSkipEmpty", "luaErrorThrottle" } },
                 { title = "Updates", keys = { "updateCheck", "updatePrefetch", "updateFromWorkshop" } },
               } },

@@ -56,6 +56,11 @@ import java.util.Properties;
  *                            Lua checksum a client sends to the server, like SandboxVars.lua is in stock: a server without
  *                            them otherwise refuses the join with "File doesn't exist on the server" (default true; not
  *                            tied to `enabled`, the files are on disk either way)
+ *   noDebugShortcuts true/false  a multiplayer client launched with -debug ignores the game's hidden Ctrl shortcuts
+ *                            (NetworkPlayerAI.checkDebugInput: Ctrl+A spawns an Angus bull, Ctrl+D kills the player,
+ *                            Ctrl+R repairs the near vehicle, Ctrl+S resets the network state, Ctrl+V adds a sports car,
+ *                            Ctrl+Z a zombie; Ctrl+A is also the inventory's select all). Not an optimization: kept out
+ *                            of the presets and the category masters (default true, the fork's choice; false = stock)
  *   updateCheck true/false   the main menu asks the GitHub releases once per boot whether a newer build for this game
  *                            revision exists and offers an "PZ Optimization update" menu item that downloads and
  *                            installs it (pzopt.Updater; default true; never in harness runs)
@@ -437,6 +442,7 @@ public final class Config {
    public static final boolean CHUNK_GRID_FOLLOW_VIEW = bool("chunkGridFollowView", true); // a grid wider than stock moves 3 tiles north + west per level the player stands on, the ground the camera looks at (IsoChunkMap.ProcessChunkPos, pzopt.ChunkGrid.heightShiftTiles)
    public static final boolean DEV = bool("dev", false);
    public static final boolean LUA_CHECKSUM_EXEMPT = bool("luaChecksumExempt", true); // NetChecksum skips media/lua/*/pzopt/ files: they only exist on clients
+   public static final boolean NO_DEBUG_SHORTCUTS = bool("noDebugShortcuts", true); // NetworkPlayerAI.checkDebugInput does nothing: no Ctrl+A bull, Ctrl+D death, Ctrl+R / S / V / Z on a -debug multiplayer client
    public static final boolean UPDATE_CHECK = bool("updateCheck", true); // main menu: check the GitHub releases for a newer build and offer the update item (pzopt.Updater)
    public static final boolean UPDATE_FROM_WORKSHOP = bool("updateFromWorkshop", false); // update check: offer the Steam Workshop copy already on disk before asking GitHub (pzopt.Updater.findWorkshopCopy). Off in this fork (WINDOWS-42.22.md): the Workshop item is upstream's, whose builds do not ship pzopt-launch.cmd, so one would replace this fork's build and leave the Steam launch option pointing at a missing file
    public static final boolean UPDATE_PREFETCH = bool("updatePrefetch", true); // once a release is offered, fetch the files that differ from the installed ones in the background (a range request per changed span; the whole zip never before the click)

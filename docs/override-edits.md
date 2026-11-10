@@ -9018,3 +9018,17 @@ sprite, `getElements()` array read -> `List.get`). No other 42.22-removed API (`
 Only `MainScreenState` changed among the shadowed classes (466 of 469 byte-identical to `e013dbb529`). `git merge-file` of 42.22.1's Vineflower
 output, clean: the `IntegrityReport.collectInBackground` start in `main`, `rewriteVersionIfPending`, the synchronized
 `writeOutCurrentVersion`. The jar is signed from this build on, so the overrides load through a Java agent: `docs/findings-signed-jar-2026-11-04.md`.
+
+## zombie.characters.NetworkPlayerAI (added 2026-11-10, fork, `noDebugShortcuts`, default on)
+
+A multiplayer client launched with -debug runs `checkDebugInput` from `NetworkPlayerAI.update` every update. While the
+left Ctrl key is held for the local player it acts on six keys that are in no key binding and no Lua: A sends the
+`animal add` client command for an Angus bull one square in front of the player (a real server animal, so it stays),
+D sets the player's health to 0, R sends `vehicle repair` for the vehicle the player is in or next to, S resets the
+network AI state, V sends `/addvehicle Base.SportsCar` and Z sends `/createhorde2` for one zombie in front of the
+player. Ctrl+A is also the inventory window's Select All, so an admin who keeps -debug for the Lua console spawned a bull
+every time they selected all their items to move them (reported in this fork, 2026-11-10).
+
+One edit, at the top of `checkDebugInput`: with `Config.noDebugShortcuts` and the overrides enabled it returns at once.
+Everything else in the class is the jar's. It is not an optimization: kept out of the presets and the category masters
+(`CategoryMastersTest`), Multiplayer settings in the menu, applies on the next launch; `false` gives the stock shortcuts.

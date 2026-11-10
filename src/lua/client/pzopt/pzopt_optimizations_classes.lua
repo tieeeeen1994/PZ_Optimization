@@ -957,6 +957,7 @@ PzoptOptionClasses = {
     modLuaProfile = { "pzopt.HarnessModLua" },
     nearVehicleGrid = { "pzopt.VehicleNear" },
     noClickToStart = { "GameLoadingState" },
+    noDebugShortcuts = { "NetworkPlayerAI" },
     noIntroWait = { "GameLoadingState" },
     noLoadFade = { "GameLoadingState", "MainScreenState" },
     noLoadingScreen = { "pzopt.NoLoadingScreen" },

@@ -40,7 +40,14 @@ The in-game updater of this build looks for new releases of this fork (not upstr
   - the 42.22.2 revision in `MainScreenState` (the only stock change from 42.22.1 to 42.22.2 under the overrides:
     `build.sh`'s bytecode audit compares 9,539 unedited methods with the 42.22.2 jar, 0 mismatches);
   - Windows fixes to the build scripts (the source list goes to `javac` in a file, the audit reads Windows paths);
-  - `src/launch/pzopt-launch.cmd`, the launch fix below.
+  - `src/launch/pzopt-launch.cmd`, the launch fix below;
+  - a setting upstream does not have (2026-11-10): **Turn off the hidden Ctrl shortcuts of -debug** (`noDebugShortcuts`,
+    on by default; PZ OPTIMIZATION > System > Mods and multiplayer). A game launched with `-debug` has shortcuts on a
+    server that are in no key binding: Ctrl+A spawns a bull in front of you, Ctrl+D kills your character, Ctrl+R
+    repairs the car you are in or next to, Ctrl+S resets your character's network state, Ctrl+V spawns a sports car,
+    Ctrl+Z a zombie. Ctrl+A is also the inventory's Select All, so selecting all your items spawned a bull. With the
+    setting on they do nothing, and the Lua console and the rest of `-debug` stay (the `NetworkPlayerAI` override,
+    `docs/override-edits.md`).
 - **On Windows the agent does not start from Steam.** The JVM loads agent libraries before `java.dll`, and the agent's
   `instrument.dll` needs `java.dll` and `jli.dll` from `jre64\bin`. `java.exe` finds them because it sits in that
   folder; Steam starts `ProjectZomboid64.exe` from the game folder, where Windows does not look. The game then closes
