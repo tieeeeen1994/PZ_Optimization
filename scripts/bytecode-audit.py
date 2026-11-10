@@ -232,7 +232,7 @@ def main():
 
     allow = set()
     if os.path.exists(a.allow):
-        for l in open(a.allow):
+        for l in open(a.allow, encoding="utf-8"):
             l = l.split("  #", 1)[0].strip()
             if l and not l.startswith("#"):
                 allow.add(l)
@@ -241,7 +241,7 @@ def main():
     for root, _, names in os.walk(a.stock):
         for n in names:
             if n.endswith(".class"):
-                files.append(os.path.relpath(os.path.join(root, n), a.stock)[:-6].replace("/", "."))
+                files.append(os.path.relpath(os.path.join(root, n), a.stock)[:-6].replace(os.sep, "/").replace("/", "."))
     files.sort()
     if a.only:
         files = [f for f in files if f.split("$")[0] in a.only]

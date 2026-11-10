@@ -36,8 +36,12 @@ mkdir -p "$OUT" "$BUILD/stock"
 echo "compiling src/ against $JAR (--release $RELEASE)"
 # src/vendor: third-party pure-Java libraries (javif, the menu clips' AV1 / AVIF decoder, MPL-2.0: src/vendor/javif)
 mapfile -t sources < <(find "$SRC/overrides" "$SRC/shims" "$SRC/pzopt" "$SRC/vendor" -name '*.java' | sort)
+# The source list goes through an argument file: on Windows (Git Bash) it is longer than a command line may be.
+# javac there reads Windows paths, so convert them when cygpath exists.
+topath() { if command -v cygpath >/dev/null; then cygpath -m -f -; else cat; fi; }
+printf '%s\n' "${sources[@]}" | topath | sed 's/.*/"&"/' > "$BUILD/sources.txt"
 javac --release "$RELEASE" -nowarn -Xlint:-options -parameters -g \
-  -cp "$JAR" -d "$OUT" "${sources[@]}"
+  -cp "$JAR" -d "$OUT" "@$(printf '%s\n' "$BUILD/sources.txt" | topath)"
 
 # Experiment: the C++ LOS pass (Config playerLosNative). Only with PZOPT_NATIVE=1, so the shipped build never
 # carries a native library; lands under natives/ like the game's own .so files.
