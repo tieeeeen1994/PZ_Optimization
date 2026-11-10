@@ -181,7 +181,13 @@ public class GroundHashTest {
       Path bin = root.resolve("build/glslrun");
       if (!Files.exists(bin) || Files.getLastModifiedTime(bin).compareTo(Files.getLastModifiedTime(src)) < 0) {
          Files.createDirectories(bin.getParent());
-         Process p = new ProcessBuilder("cc", "-O2", "-o", bin.toString(), src.toString(), "-lEGL", "-lGL").redirectErrorStream(true).start();
+         Process p;
+         try {
+            p = new ProcessBuilder("cc", "-O2", "-o", bin.toString(), src.toString(), "-lEGL", "-lGL").redirectErrorStream(true).start();
+         } catch (java.io.IOException e) {
+            System.out.println("GroundHashTest: no C compiler to build glslrun (" + e.getMessage() + ")");
+            return null;
+         }
          String log = new String(p.getInputStream().readAllBytes());
          if (p.waitFor() != 0) {
             System.out.println("GroundHashTest: glslrun did not build:\n" + log);

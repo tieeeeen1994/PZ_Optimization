@@ -1,8 +1,32 @@
 # PZ Optimization on Build 42.22.2, Windows (unofficial)
 
 This fork builds [xD3I's PZ_Optimization](https://github.com/xD3I/PZ_Optimization) for **Project Zomboid 42.22.2**
-(revision `3d39148846`) on **Windows**, from source. It is not an official release: problems with it are this fork's,
-not upstream's. Upstream has no 42.22 release yet.
+(revision `3d39148846`) on **Windows**. It is not an official release: problems with it are this fork's, not
+upstream's. Upstream has no 42.22 release yet. Read [Before you start](#before-you-start) first.
+
+## Install (no tools needed)
+
+1. Quit the game. Open **PowerShell** (Start menu > type PowerShell) and paste:
+   ```powershell
+   irm https://github.com/tieeeeen1994/PZ_Optimization/releases/latest/download/install.ps1 | iex
+   ```
+   It finds the game, downloads this fork's build for your game version and installs it. `projectzomboid.jar` is
+   never changed.
+2. **Set the Steam launch option**, or the game will not start. The installer ends by printing the line and copying it
+   to your clipboard. In Steam: right-click Project Zomboid > Properties > General > **Launch Options**, paste it. It
+   looks like this, with your game folder in the middle:
+   ```
+   "C:\Windows\System32\conhost.exe" --headless "C:\Program Files (x86)\Steam\steamapps\common\ProjectZomboid\pzopt-launch.cmd" %command%
+   ```
+   Keep any options you already had after `%command%` (for example `... %command% -debug`).
+3. Start the game from Steam. The main menu has a **PZ OPTIMIZATION** item.
+
+**Uninstall**: main menu > PZ OPTIMIZATION > Uninstall PZ Optimization, or double-click `Uninstall-PZ-Optimization.cmd`
+in the game folder (Steam > Manage > Browse local files), or paste
+`irm https://github.com/tieeeeen1994/PZ_Optimization/releases/latest/download/uninstall.ps1 | iex` into PowerShell.
+**Then set the Steam launch options back** to what you had before.
+
+The in-game updater of this build looks for new releases of this fork (not upstream's, not the Workshop item).
 
 ## Why a fork, and why the extra launch option
 
@@ -38,7 +62,9 @@ not upstream's. Upstream has no 42.22 release yet.
 - **Other Java mods with loose class files in the game folder break** on the signed jar, with or without this.
 - **The next game update turns it off** (the overrides refuse any other revision), and it needs a rebuild.
 
-## Build
+## Build it yourself (optional)
+
+Only for changing the code or porting to a new game version; players use the installer above.
 
 You need Git for Windows (Git Bash), a JDK 25 or newer, and Python 3.
 
@@ -65,7 +91,7 @@ You need Git for Windows (Git Bash), a JDK 25 or newer, and Python 3.
    and `projectzomboid.jar is signed: the overrides load through the agent`. It refuses to finish on any mismatch.
    `scripts/test.sh` runs the unit tests; on Windows the three `Ground*Test`s fail because they compile a Linux C tool.
 
-## Install
+## Install your own build
 
 Close the game, then:
 
@@ -92,7 +118,7 @@ Use your own game folder in the middle. Keep any options you already had after `
 **Check it loaded**: the main menu has a **PZ OPTIMIZATION** item, and `%USERPROFILE%\Zomboid\console.txt` has
 `classpath=...,agents=1` and many `[pzopt] loaded override ... active` lines.
 
-## Uninstall
+## Uninstall your own build
 
 Main menu > PZ OPTIMIZATION > Uninstall PZ Optimization, or double-click `Uninstall-PZ-Optimization.cmd` in the game
 folder, or `scripts/pzopt.sh uninstall`. Each removes the files and the `-javaagent` line. **Then set the Steam launch

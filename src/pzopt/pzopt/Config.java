@@ -438,7 +438,7 @@ public final class Config {
    public static final boolean DEV = bool("dev", false);
    public static final boolean LUA_CHECKSUM_EXEMPT = bool("luaChecksumExempt", true); // NetChecksum skips media/lua/*/pzopt/ files: they only exist on clients
    public static final boolean UPDATE_CHECK = bool("updateCheck", true); // main menu: check the GitHub releases for a newer build and offer the update item (pzopt.Updater)
-   public static final boolean UPDATE_FROM_WORKSHOP = bool("updateFromWorkshop", true); // update check: offer the Steam Workshop copy already on disk before asking GitHub (pzopt.Updater.findWorkshopCopy)
+   public static final boolean UPDATE_FROM_WORKSHOP = bool("updateFromWorkshop", false); // update check: offer the Steam Workshop copy already on disk before asking GitHub (pzopt.Updater.findWorkshopCopy). Off in this fork (WINDOWS-42.22.md): the Workshop item is upstream's, whose builds do not ship pzopt-launch.cmd, so one would replace this fork's build and leave the Steam launch option pointing at a missing file
    public static final boolean UPDATE_PREFETCH = bool("updatePrefetch", true); // once a release is offered, fetch the files that differ from the installed ones in the background (a range request per changed span; the whole zip never before the click)
    public static final int UPDATE_PREFETCH_MAX_KB = integer("updatePrefetchMaxKb", 16384); // the background fetch stops at this many compressed KB of changed entries (a release apart is ~60 KB)
    public static final boolean DEV_UPDATE_DRIVE = bool("devUpdateDrive", false); // dev rig: the menu opens the update dialog, presses Update now and Restart game; the restarted process logs its timing and quits (pzopt.Updater.drive)

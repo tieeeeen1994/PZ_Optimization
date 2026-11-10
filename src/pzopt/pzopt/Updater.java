@@ -59,7 +59,7 @@ import org.json.JSONObject;
  * Every state is a string the Lua polls once a frame through the PerformanceSettings forwards.
  */
 public final class Updater {
-   public static final String REPO_SLUG = "xD3I/PZ_Optimization";
+   public static final String REPO_SLUG = "tieeeeen1994/PZ_Optimization";
    static final String API = "https://api.github.com/repos/" + REPO_SLUG + "/releases?per_page=30";
    static final String RELEASES_PAGE = "https://github.com/" + REPO_SLUG + "/releases";
    static final String WEB_LATEST = "https://github.com/" + REPO_SLUG + "/releases/latest";

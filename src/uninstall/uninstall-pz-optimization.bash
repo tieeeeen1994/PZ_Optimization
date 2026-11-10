@@ -11,4 +11,4 @@ if [[ -f "$here/pzopt/uninstall/install.bash" ]]; then
   rm -f "$tmp"
   exit $rc
 fi
-curl -fsSL https://github.com/xD3I/PZ_Optimization/releases/latest/download/install.sh | bash -s -- --uninstall --dir "$here"
+curl -fsSL https://github.com/tieeeeen1994/PZ_Optimization/releases/latest/download/install.sh | bash -s -- --uninstall --dir "$here"

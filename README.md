@@ -1,8 +1,10 @@
 <h1 align="center">Project Zomboid without the stutter</h1>
 
 > **This fork, branch `port-42.22.2-agent`:** an unofficial build for **Build 42.22.2 on Windows**, which signs the game
-> jar and needs a Steam launch option. How and why: **[WINDOWS-42.22.md](WINDOWS-42.22.md)**. Everything below is
-> upstream's README.
+> jar and needs a Steam launch option. Install: quit the game, paste
+> `irm https://github.com/tieeeeen1994/PZ_Optimization/releases/latest/download/install.ps1 | iex` into PowerShell,
+> then set the launch option it prints. Details and caveats: **[WINDOWS-42.22.md](WINDOWS-42.22.md)**. Everything
+> below is upstream's README (its install links are upstream's, which have no 42.22 build).
 
 <p align="center">
 Class overrides for <b>Project Zomboid Build 42.21</b> (Windows, Linux, macOS): smoother frames, faster chunk loading,

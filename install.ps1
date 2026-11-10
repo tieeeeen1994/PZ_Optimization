@@ -19,8 +19,8 @@ game is waited for: quit it and the install (or -Uninstall) goes on.
   .\install.ps1 -Force       # replace class files another Java mod put into the game folder (moved aside first)
 
 Without downloading anything first (PowerShell, any folder; the Steam Workshop copy is used when present):
-  irm https://github.com/xD3I/PZ_Optimization/releases/latest/download/install.ps1 | iex
-  irm https://github.com/xD3I/PZ_Optimization/releases/latest/download/uninstall.ps1 | iex
+  irm https://github.com/tieeeeen1994/PZ_Optimization/releases/latest/download/install.ps1 | iex
+  irm https://github.com/tieeeeen1994/PZ_Optimization/releases/latest/download/uninstall.ps1 | iex
 
 Every install also leaves Uninstall-PZ-Optimization.cmd in the game folder (Steam: Manage > Browse local files):
 double-click it to remove PZ Optimization without starting the game; it runs the copy of this script kept in
@@ -49,7 +49,7 @@ if (-not $PSCommandPath) {
   # exit codes, $PSScriptRoot and the parameters behave as with -File.
   [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
   $self = Join-Path ([IO.Path]::GetTempPath()) 'pzopt-install.ps1'
-  Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/xD3I/PZ_Optimization/releases/latest/download/install.ps1' -OutFile $self
+  Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/tieeeeen1994/PZ_Optimization/releases/latest/download/install.ps1' -OutFile $self
   $argv = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $self)
   foreach ($k in $PSBoundParameters.Keys) {
     $v = $PSBoundParameters[$k]
@@ -61,7 +61,7 @@ if (-not $PSCommandPath) {
 $ErrorActionPreference = 'Stop'
 # GitHub needs TLS 1.2; Windows PowerShell 5.1 on older Windows offers 1.0 / 1.1 only by default
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
-$RepoSlug = 'xD3I/PZ_Optimization'
+$RepoSlug = 'tieeeeen1994/PZ_Optimization'
 $WorkshopId = '3805285544'
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
@@ -186,6 +186,25 @@ function Add-AgentArg {
     [IO.File]::WriteAllText($Json, ($j | ConvertTo-Json -Depth 10), (New-Object Text.UTF8Encoding $false))
     Write-Host 'launcher: the PZ Optimization agent added (signed game jar)'
   }
+}
+# Windows on a signed jar (this fork, WINDOWS-42.22.md): Steam starts ProjectZomboid64.exe from the game folder, where
+# Windows does not find java.dll for the agent's instrument.dll, so the game closes at once unless it is started through
+# pzopt-launch.cmd, which puts jre64\bin on PATH for that launch. Steam keeps launch options in its own config, which
+# Steam rewrites while it runs, so the player pastes the line; it goes to the clipboard.
+function Show-LaunchOption {
+  $cmd = Join-Path $Dir 'pzopt-launch.cmd'
+  if (-not (Test-Path -LiteralPath $cmd)) { return }
+  $conhost = Join-Path $env:SystemRoot 'System32\conhost.exe'
+  $line = "`"$conhost`" --headless `"$cmd`" %command%"
+  $copied = $false
+  try { Set-Clipboard -Value $line; $copied = $true } catch { }
+  Write-Host ''
+  Write-Host 'ONE MORE STEP, or the game will not start from Steam:' -ForegroundColor Yellow
+  Write-Host 'Steam > right-click Project Zomboid > Properties > General > Launch Options, paste this line' -ForegroundColor Yellow
+  Write-Host "(it is on your clipboard$(if (-not $copied) { ' - copy it from here' })), and keep any options you already had after %command%:" -ForegroundColor Yellow
+  Write-Host ''
+  Write-Host "  $line" -ForegroundColor Cyan
+  Write-Host ''
 }
 
 function Reset-Aot {
@@ -418,6 +437,10 @@ if ($Uninstall) {
   Wait-GameClosed
   if (-not (Remove-Install)) { Clear-GameNotes; Write-Host "PZ Optimization is not installed in $Dir (nothing of it found there)"; Done 0 }
   Write-Host "PZ Optimization is uninstalled: the next launch is the stock game. You can unsubscribe from the Workshop item now."
+  if (Test-Path -LiteralPath (Join-Path $Dir 'projectzomboid.jar')) {
+    Write-Host 'If you set the Steam launch option for pzopt-launch.cmd, set it back now (Steam > Project Zomboid > Properties >' -ForegroundColor Yellow
+    Write-Host 'Launch Options): the file is gone and Steam cannot start the game through it.' -ForegroundColor Yellow
+  }
   Write-Host "caches under $env:USERPROFILE\Zomboid\pzopt\ (anims, packs, framecap.ini, options.ini) can be deleted by hand"
   Done 0
 }
@@ -445,10 +468,8 @@ if (-not $Zip -and -not $From -and $PSScriptRoot) {
   $sibling = Join-Path $PSScriptRoot 'pzopt-classes'
   if (Test-Path (Join-Path $sibling 'pzopt\build-info.properties')) { $From = $sibling }
 }
-if (-not $Zip -and -not $From -and -not $Tag) {
-  $From = Find-WorkshopCopy
-  if ($From) { Write-Host "found the Steam Workshop copy for revision $Rev" }
-}
+# This fork (WINDOWS-42.22.md) installs only its own GitHub releases: the Steam Workshop item is upstream's, whose
+# builds do not ship pzopt-launch.cmd. -From still takes any unpacked release folder.
 if ($From) {
   if (-not (Test-Path (Join-Path $From 'pzopt\build-info.properties'))) { Fail "$From is not an unpacked PZ_Optimization release (no pzopt\build-info.properties)" }
   Write-Host "installing from folder $From"
@@ -569,4 +590,5 @@ Write-Host "installed $($files.Count) files into $Dir for game revision $zipRev;
 Write-Host "launch from Steam; $env:USERPROFILE\Zomboid\console.txt shows one '[pzopt] loaded override ... active' line per class"
 Write-Host "settings: Options > PZ Optimization in the game, or $Dir\pzopt.properties"
 Write-Host "to remove it: Options > PZ Optimization > Uninstall PZ Optimization, or double-click $Dir\Uninstall-PZ-Optimization.cmd"
+Show-LaunchOption
 Done 0

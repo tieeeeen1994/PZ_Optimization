@@ -10,4 +10,4 @@ if exist "%~dp0pzopt\uninstall\install.ps1" (
   powershell -NoProfile -ExecutionPolicy Bypass -File "%TEMP%\pzopt-uninstall.ps1" -Uninstall -Dir "%PZOPT_GAME%" -Pause
   (goto) 2>nul
 )
-powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([scriptblock]::Create((irm 'https://github.com/xD3I/PZ_Optimization/releases/latest/download/install.ps1'))) -Uninstall -Dir $env:PZOPT_GAME -Pause" & (goto) 2>nul
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& ([scriptblock]::Create((irm 'https://github.com/tieeeeen1994/PZ_Optimization/releases/latest/download/install.ps1'))) -Uninstall -Dir $env:PZOPT_GAME -Pause" & (goto) 2>nul

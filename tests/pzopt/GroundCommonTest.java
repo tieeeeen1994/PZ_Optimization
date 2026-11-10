@@ -235,7 +235,12 @@ public class GroundCommonTest {
       Path bin = root.resolve("build/glslcheck");
       if (!Files.exists(bin) || Files.getLastModifiedTime(bin).compareTo(Files.getLastModifiedTime(src)) < 0) {
          Files.createDirectories(bin.getParent());
-         Process p = new ProcessBuilder("cc", "-O2", "-o", bin.toString(), src.toString(), "-lEGL", "-lGL").redirectErrorStream(true).start();
+         Process p;
+         try {
+            p = new ProcessBuilder("cc", "-O2", "-o", bin.toString(), src.toString(), "-lEGL", "-lGL").redirectErrorStream(true).start();
+         } catch (java.io.IOException e) {
+            return null; // no C compiler (Windows): the GPU part is skipped like a failed build
+         }
          p.getInputStream().readAllBytes();
          if (p.waitFor() != 0) {
             return null;
@@ -280,7 +285,13 @@ public class GroundCommonTest {
       Path src = root.resolve("tools/ground/gsrun.c");
       if (!Files.exists(bin) || Files.getLastModifiedTime(bin).compareTo(Files.getLastModifiedTime(src)) < 0) {
          Files.createDirectories(bin.getParent());
-         Process p = new ProcessBuilder("cc", "-O2", "-o", bin.toString(), src.toString(), "-lEGL", "-lGL").redirectErrorStream(true).start();
+         Process p;
+         try {
+            p = new ProcessBuilder("cc", "-O2", "-o", bin.toString(), src.toString(), "-lEGL", "-lGL").redirectErrorStream(true).start();
+         } catch (java.io.IOException e) {
+            System.out.println("GroundCommonTest: GroundState GPU part skipped (no C compiler: " + e.getMessage() + ")");
+            return 0;
+         }
          String o = new String(p.getInputStream().readAllBytes());
          if (p.waitFor() != 0) {
             System.out.println("GroundCommonTest: GroundState GPU part skipped (gsrun does not build: " + o + ")");

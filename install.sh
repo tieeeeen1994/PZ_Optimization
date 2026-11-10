@@ -11,9 +11,9 @@
 #   ./install.sh --force      # replace class files another Java mod put into the game folder (moved aside first)
 #
 # Without downloading anything first (any folder; the Steam Workshop copy is used when present):
-#   curl -fsSL https://github.com/xD3I/PZ_Optimization/releases/latest/download/install.sh | bash
-#   curl -fsSL https://github.com/xD3I/PZ_Optimization/releases/latest/download/install.sh | bash -s -- --uninstall
-#   curl -fsSL https://github.com/xD3I/PZ_Optimization/releases/latest/download/uninstall.sh | bash
+#   curl -fsSL https://github.com/tieeeeen1994/PZ_Optimization/releases/latest/download/install.sh | bash
+#   curl -fsSL https://github.com/tieeeeen1994/PZ_Optimization/releases/latest/download/install.sh | bash -s -- --uninstall
+#   curl -fsSL https://github.com/tieeeeen1994/PZ_Optimization/releases/latest/download/uninstall.sh | bash
 #
 # Every install also leaves uninstall-pz-optimization.bash in the game folder: `bash <game folder>/uninstall-pz-optimization.bash`
 # removes PZ Optimization without starting the game (it runs the copy of this script kept in pzopt/uninstall/).
@@ -33,7 +33,7 @@
 # and the install (or --uninstall) goes on.
 set -euo pipefail
 
-REPO_SLUG="xD3I/PZ_Optimization"
+REPO_SLUG="tieeeeen1994/PZ_Optimization"
 WORKSHOP_ID="3805285544"
 mode=install; zip=""; from=""; dir="${PZ_DIR:-}"; tag=""; force=0
 while [[ $# -gt 0 ]]; do
