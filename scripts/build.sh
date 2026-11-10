@@ -122,6 +122,11 @@ mkdir -p "$OUT/pzopt/uninstall"
 cp "$REPO/install.ps1" "$OUT/pzopt/uninstall/install.ps1"
 cp "$REPO/install.sh" "$OUT/pzopt/uninstall/install.bash"
 cp "$SRC/uninstall/Uninstall-PZ-Optimization.cmd" "$SRC/uninstall/uninstall-pz-optimization.bash" "$OUT/"
+# Windows on a signed jar (42.22+): the Steam launch option wrapper that puts jre64\bin on PATH for the agent's
+# instrument.dll (src/launch/pzopt-launch.cmd, WINDOWS-42.22.md). Installed and removed like the files above.
+if unzip -Z1 "$JAR" 'META-INF/*' 2>/dev/null | grep -E '^META-INF/[^/]+\.SF$' >/dev/null; then
+  cp "$SRC/launch/pzopt-launch.cmd" "$OUT/"
+fi
 # Puddle shader variants for Config.puddleEarlyZ (media/shaders/pzopt_puddles_*), derived from the installed game's
 # puddle shaders so a game update is picked up: the entry files with the include renamed, the .h prototype stubs
 # copied, and the two shader units changed in one place each. The vertex unit also writes the depth attribute to
